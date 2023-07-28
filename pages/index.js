@@ -1,9 +1,10 @@
 import Head from "next/head";
 import { useReducer, useState, useEffect } from "react";
 import styles from "../styles/Home.module.css";
+import todosData from "../todo.json";
  
 export default function Home() {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(todosData.todos);
   const [task, setTask] = useState([])
   const [dueDate, setDueDate] = useState([])
  
@@ -19,8 +20,8 @@ export default function Home() {
     fetchTodos()
   },[])
 
-  const handleSubmit = async () => {
-    // e.preventDefault()
+  const handleSubmit = async (e) => {
+    e.preventDefault()
     const res =  await fetch('/api/todos', {
       // await fetch('/api/todos', {
       method: 'POST', 

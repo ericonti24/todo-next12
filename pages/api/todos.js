@@ -1,9 +1,15 @@
 // import todos from "../../todo.json";
-import {todos} from '../../todos'
+// import {todos} from '../todos.json'
 
- 
+import todosData from '../../todo.json'
+
 export default function handler(req, res) {
+
+    const fs = require('fs')
+    const todos = todosData.todos
+
     if(req.method === "GET"){
+        
         res.status(200).json(todos)
     } else if (req.method == "POST") {
         const task = req.body.task
@@ -14,7 +20,13 @@ export default function handler(req, res) {
             dueDate: dueDate
         }
         todos.push(newToDo)
-        res.status(200).json(newToDo)
+        const data = {todos}
+            fs.writeFile('todo.json', JSON.stringify(data), (err) => {
+
+            if(err) throw err;
+            else console.log('success');
+        })
+        return res.status(200).json(todos)
         console.log(newToDo);
     }
 }
