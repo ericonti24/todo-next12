@@ -1,7 +1,5 @@
-// import todos from "../../todo.json";
-// import {todos} from '../todos.json'
-
 import todosData from '../../todo.json'
+
 
 export default function handler(req, res) {
 
@@ -9,8 +7,8 @@ export default function handler(req, res) {
     const todos = todosData.todos
 
     if(req.method === "GET"){
-        
         res.status(200).json(todos)
+
     } else if (req.method == "POST") {
         const task = req.body.task
         const dueDate = req.body.dueDate
@@ -21,25 +19,21 @@ export default function handler(req, res) {
         }
         todos.push(newToDo)
         const data = {todos}
-            fs.writeFile('todo.json', JSON.stringify(data), (err) => {
-
-            if(err) throw err;
-            else console.log('success');
+        fs.writeFile('todo.json', JSON.stringify(data), (err) => {
+        if(err) throw err;
+        else console.log('success');
         })
         return res.status(200).json(todos)
         console.log(newToDo);
+        
+    } else if (req.method === 'DELETE') {
+        let id = req.body.id
+        let indexToDelete = todos.findIndex((todo) => todo.id === id)
+        todos.splice(indexToDelete, 1)
+        let todoDeleted = todos.find((todo) => todo.id === id)
+        res.status(200).json(todoDeleted)
     }
 }
-
-// export default function handler(req, res) {
-//     if(req.method === "GET"){
-//         res.status(200).json(todos)
-//     }
-//     else if(req.method === "POST"){
-//         todos.push({task:`${req.body.task}`})
-//         res.status(200).json(todos)
-//     }
-// }
 
 
 

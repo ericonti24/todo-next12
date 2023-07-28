@@ -22,23 +22,40 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const res =  await fetch('/api/todos', {
-      // await fetch('/api/todos', {
+    const res =  await fetch(`/api/todos`, {
       method: 'POST', 
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({task, dueDate})
     })
     const data = await res.json()
     setTodos(data)
+    setTask("")
+    setDueDate("")
     console.log(data);  
   }
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault()
-  //   savedToDo()
-  //   setTask("")
-  //   setDueDate("")
+  // const deleteToDo = async (todoId) => {
+  //   const res = await fetch(`/api/todos/${todoId}`, {
+  //     method: 'DELETE',
+  //   })
+  //   const data = await res.json()
+  //   console.log(data);
+  //   fetchTodos()
   // }
+
+  const deleteToDo = (id) => {
+    fetch(`/api/todos/`, {
+      method: 'DELETE',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id,
+      })
+    }).then(() => {
+      fetchTodos()
+    })
+  }
  
   return (
     <div className={styles.container}>
@@ -63,6 +80,7 @@ export default function Home() {
                 <br/>
                 Due Date: {todo.dueDate}
                 <br/>
+                <button onClick={() => deleteToDo(todo.id)}>Done</button>
                 <hr/>
               </div>
             );
