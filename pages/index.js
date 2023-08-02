@@ -34,15 +34,6 @@ export default function Home() {
     console.log(data);  
   }
 
-  // const deleteToDo = async (todoId) => {
-  //   const res = await fetch(`/api/todos/${todoId}`, {
-  //     method: 'DELETE',
-  //   })
-  //   const data = await res.json()
-  //   console.log(data);
-  //   fetchTodos()
-  // }
-
   const deleteToDo = (id) => {
     fetch(`/api/todos/`, {
       method: 'DELETE',
