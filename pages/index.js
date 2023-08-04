@@ -1,6 +1,5 @@
 import Head from "next/head";
 import { useReducer, useState, useEffect } from "react";
-import styles from "../styles/Home.module.css";
 import todosData from "../todo.json";
  
 export default function Home() {
@@ -49,7 +48,7 @@ export default function Home() {
   }
  
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>To Do List</title>
       </Head>
