@@ -1,13 +1,11 @@
 import Head from "next/head";
 import { useReducer, useState, useEffect } from "react";
 import todosData from "../todo.json";
+import ToDoForm from './components/todoForm'
+import { Button, ButtonGroup } from '@chakra-ui/react'
  
 export default function Home() {
   const [todos, setTodos] = useState(todosData.todos);
-  const [task, setTask] = useState([])
-  const [dueDate, setDueDate] = useState([])
- 
-  
  
   const fetchTodos = async () => {
     const response = await fetch("/api/todos");
@@ -18,20 +16,6 @@ export default function Home() {
   useEffect(() => {
     fetchTodos()
   },[])
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const res =  await fetch(`/api/todos`, {
-      method: 'POST', 
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({task, dueDate})
-    })
-    const data = await res.json()
-    setTodos(data)
-    setTask("")
-    setDueDate("")
-    console.log(data);  
-  }
 
   const deleteToDo = (id) => {
     fetch(`/api/todos/`, {
@@ -54,13 +38,7 @@ export default function Home() {
       </Head>
       <main>
         <br/>
-        <form align="center" onSubmit={handleSubmit}>
-          Task:<input type="text" required onChange={(e) => setTask(e.target.value)} value={task} />
-          <br/>
-          Due Date:<input type="text" required onChange={(e) => setDueDate(e.target.value)} value={dueDate} />
-          <br/>
-          <button type="submit">Submit</button>
-        </form>
+        <ToDoForm fetchTodos={fetchTodos}/>
         <br/>
         <br/>
         {todos.map((todo) => {
@@ -70,7 +48,14 @@ export default function Home() {
                 <br/>
                 Due Date: {todo.dueDate}
                 <br/>
-                <button onClick={() => deleteToDo(todo.id)}>Done</button>
+                <Button 
+                  onClick={() => deleteToDo(todo.id)}
+                  size='sm'
+                  colorScheme='gray'
+                  color='black'
+                >
+                  Done
+                </Button>
                 <hr/>
               </div>
             );
