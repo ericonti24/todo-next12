@@ -35,8 +35,8 @@ export default function handler(req, res) {
             if(err) throw err;
             else console.log('success');
             })
-        let todoDeleted = todos.find((todo) => todo.id === id)
-        res.status(200).json(todoDeleted)
+        // let todoDeleted = todos.find((todo) => todo.id === id)
+        res.status(200).json(todos)
     }
 }
 
