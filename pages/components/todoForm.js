@@ -23,6 +23,7 @@ import {supabase} from '../api/test'
 
       setTask("")
       fetchData()
+    
     }
 
     return (
