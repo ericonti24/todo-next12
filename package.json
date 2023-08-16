@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@chakra-ui/next-js": "^2.1.5",
-    "@chakra-ui/react": "^1.8.9",
+    "@chakra-ui/react": "^2.4.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@supabase/supabase-js": "^1.35.3",
