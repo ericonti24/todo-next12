@@ -1,8 +1,7 @@
 import Head from "next/head";
 import { useReducer, useState, useEffect } from "react";
-import todosData from "../todo.json";
 import ToDoForm from './components/todoForm'
-import { Button, ButtonGroup, VStack } from '@chakra-ui/react'
+import { Button, ButtonGroup, VStack, Heading } from '@chakra-ui/react'
 import TasksList from './components/TasksList'
 import {supabase} from '../pages/api/test'
  
@@ -21,18 +20,16 @@ export default function Home() {
     },[])
  
   return (
-    <VStack>
+    <VStack p={4}>
       <Head>
         <title>To Do List</title>
       </Head>
-      <main>
-        <br/>
-        {/* <ToDoForm fetchTodos={fetchTodos}/> */}
+      <Heading>
+        To Do List
+      </Heading>
         <ToDoForm fetchData={fetchData}/>
-        <br/>
-        <br/>
+        
         <TasksList fetchData={fetchData} listToDos={listToDos}/>
-      </main>
     </VStack>
   );
 }

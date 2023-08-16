@@ -7,7 +7,7 @@ export default function TaskList({fetchData, listToDos}) {
 
     return (
         <>
-            <VStack>
+            <VStack w='40%'>
                 {listToDos.map((todo) => (
                     <Task todo={todo} key={todo.id} fetchData={fetchData}/>  
                 ))}
