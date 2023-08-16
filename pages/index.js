@@ -4,33 +4,21 @@ import todosData from "../todo.json";
 import ToDoForm from './components/todoForm'
 import { Button, ButtonGroup, VStack } from '@chakra-ui/react'
 import TasksList from './components/TasksList'
+import {supabase} from '../pages/api/test'
  
 export default function Home() {
-  // const [todos, setTodos] = useState(todosData.todos);
- 
-  // const fetchTodos = async () => {
-  //   const response = await fetch("/api/todos");
-  //   const data = await response.json()
-  //   setTodos(data);
-  // };
 
-  // useEffect(() => {
-  //   fetchTodos()
-  // },[])
+  const [listToDos, setListToDos] = useState([])
 
-  // const deleteToDo = (id) => {
-  //   fetch(`/api/todos/`, {
-  //     method: 'DELETE',
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       id,
-  //     })
-  //   }).then(() => {
-  //     fetchTodos()
-  //   })
-  // }
+    const fetchData = async () => {
+        let { data: todos, error } = await supabase.from('todos').select('*')
+        console.log(todos);
+        setListToDos(todos)
+    }
+
+    useEffect(() => {
+        fetchData()
+    },[])
  
   return (
     <VStack>
@@ -40,10 +28,10 @@ export default function Home() {
       <main>
         <br/>
         {/* <ToDoForm fetchTodos={fetchTodos}/> */}
-        <ToDoForm />
+        <ToDoForm fetchData={fetchData}/>
         <br/>
         <br/>
-        <TasksList />
+        <TasksList fetchData={fetchData} listToDos={listToDos}/>
       </main>
     </VStack>
   );

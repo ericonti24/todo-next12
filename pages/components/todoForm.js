@@ -1,64 +1,32 @@
 import {useState} from 'react'
 import { Input } from '@chakra-ui/react'
-import { Button, ButtonGroup, HStack } from '@chakra-ui/react'
+import { Button, ButtonGroup, HStack, useToast } from '@chakra-ui/react'
+import {supabase} from '../api/test'
 
-// export default function Home({fetchTodos}) {
+  export default function ToDoForm({fetchData}) {
 
-    // const [task, setTask] = useState([])
-    // const [dueDate, setDueDate] = useState([])
+    const [task, setTask] = useState("")
+    const toast = useToast()
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault()
-    //     const res =  await fetch(`/api/todos`, {
-    //       method: 'POST', 
-    //       headers: {'Content-Type': 'application/json'},
-    //       body: JSON.stringify({task, dueDate})
-    //     })
-    //     const data = await res.json()
-    //     fetchTodos()
-    //     setTask("")
-    //     setDueDate("")
-    //     console.log(data);  
-    //   }
+    const handleSubmit = async (e) => {
+      e.preventDefault()
 
-    // return (
-    //     <form align="center" onSubmit={handleSubmit}>
-    //       <Input 
-    //         htmlSize={30} 
-    //         width='auto' 
-    //         placeholder='enter task...'
-    //         type="text" 
-    //         required 
-    //         onChange={(e) => setTask(e.target.value)} 
-    //         value={task} 
-    //       />
-    //       <br/>
-    //       <Input 
-    //         htmlSize={30} 
-    //         width='auto' 
-    //         placeholder='enter due date...'
-    //         type="text" 
-    //         required 
-    //         onChange={(e) => setDueDate(e.target.value)} 
-    //         value={dueDate} 
-    //       />
-    //       <br/>
-    //       <Button 
-    //         type="submit"
-    //         size='sm'
-    //         colorScheme='teal'
-    //         variant='outline'
-    //       >
-    //         Add
-    //       </Button>
-    //     </form>
-    // )
-  export default function ToDoForm() {
+      const { data, error } = await supabase.from('todos').insert([{ task }]).select()
 
-    
+      toast({
+        title: error || 'Task added!',
+        position: 'top',
+        status: error ? 'error' : 'success',
+        duration: 2000,
+        isClosable: true,
+      });
+
+      setTask("")
+      fetchData()
+    }
 
     return (
-      <form>
+      <form onSubmit={handleSubmit}>
         <HStack my="4" h="20">
           <Input 
               htmlSize={30} 
@@ -66,6 +34,8 @@ import { Button, ButtonGroup, HStack } from '@chakra-ui/react'
               placeholder='enter task...'
               type="text" 
               required 
+              value={task}
+              onChange={(e) => setTask(e.target.value)}
             />
           <Button 
             type="submit"
